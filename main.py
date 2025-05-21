@@ -26,10 +26,13 @@ def admin():
     return render_template("admin.html")
 
 @app.route("/" + TOKEN, methods=["POST"])
-def webhook():
-    update = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
+def receive_update():
+    json_str = request.get_data().decode('UTF-8')
+    print("Получено обновление:", json_str)  # ЛОГ В КОНСОЛЬ!
+    update = telebot.types.Update.de_json(json_str)
     bot.process_new_updates([update])
-    return "ok", 200
+    return "!", 200
+
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
