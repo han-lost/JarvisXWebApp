@@ -1,10 +1,9 @@
-
 services:
   - type: web
     name: jarvisx-web
     env: python
-    plan: free
-    buildCommand: ""
-    startCommand: "python main.py"
-    autoDeploy: true
-    envVars: []
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app --bind 0.0.0.0:10000
+    envVars:
+      - key: TELEGRAM_TOKEN
+        value: "7605281790:AAHhl2iUFuv0vtO4GvCsU3JQ5gQ5ED8wyx4"
