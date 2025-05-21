@@ -6,4 +6,4 @@ services:
     startCommand: gunicorn main:app --bind 0.0.0.0:10000
     envVars:
       - key: TELEGRAM_TOKEN
-        value: "7605281790:AAHhl2iUFuv0vtO4GvCsU3JQ5gQ5ED8wyx4"
+        value: "8051188881:AAHbGSaljlNC5YASV5Jj3BheqEi27PaL0EU"
