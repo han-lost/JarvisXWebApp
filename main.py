@@ -1,4 +1,5 @@
 import logging
+import telebot  # <== Добавь этот импорт
 from flask import Flask, request
 from init_bot import bot, register_handlers
 from config import TOKEN
