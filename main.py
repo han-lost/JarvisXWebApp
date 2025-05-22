@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_handler(message):
+    print(f"Received /start from {message.chat.id}")
     chat_id = message.chat.id
     markup = telebot.types.InlineKeyboardMarkup()
     markup.add(telebot.types.InlineKeyboardButton("Перейти на сайт", url=LINK))
