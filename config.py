@@ -1,5 +1,5 @@
 TOKEN = "8051188881:AAHbGSaljlNC5YASV5Jj3BheqEi27PaL0EU"
-ADMIN_ID = 123456789  # без кавычек, то есть целое число (int)
+ADMIN_ID = 123456789  # Преобразовано в int
 LINK = "https://goo.su/qnkvtL"
 PROMO = "FXX86"
 
