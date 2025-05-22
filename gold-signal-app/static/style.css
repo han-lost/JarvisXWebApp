@@ -1,0 +1,18 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    background-color: #f7f7f7;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: gold;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#signal-result {
+    margin-top: 20px;
+    font-size: 18px;
+}
