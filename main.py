@@ -1,5 +1,7 @@
 import logging
 import telebot  # <== Добавь этот импорт
+import logging
+import telebot
 from flask import Flask, request
 from init_bot import bot, register_handlers
 from config import TOKEN
@@ -27,6 +29,7 @@ def webhook():
 def index():
     return "JarvisXBot работает."
 
-# Устанавливаем Webhook (после всего остального)
-bot.remove_webhook()
-bot.set_webhook(url=f"https://jarvisx-web.onrender.com/{TOKEN}")
+# Устанавливаем Webhook только при локальном запуске (например, python main.py)
+if __name__ == '__main__':
+    bot.remove_webhook()
+    bot.set_webhook(url=f"https://jarvisx-web.onrender.com/{TOKEN}")
