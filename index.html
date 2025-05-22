@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head><title>JarvisXBot</title></head>
+<body>
+<h2>Добро пожаловать в JarvisXBot</h2>
+{% if signal %}
+<p><strong>Сигнал:</strong> {{ signal }}</p>
+{% else %}
+<form method="POST">
+    <button type="submit">Получить сигнал</button>
+</form>
+{% endif %}
+</body>
+</html>
