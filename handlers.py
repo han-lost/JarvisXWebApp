@@ -1,3 +1,4 @@
+import telebot
 from config import ADMIN_ID, START_MESSAGE, LINK
 
 def register_all_handlers(bot):
