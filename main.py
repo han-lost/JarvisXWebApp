@@ -1,3 +1,5 @@
+import logging
+telebot.logger.setLevel(logging.DEBUG)
 from flask import Flask, request
 import telebot
 from config import TOKEN, ADMIN_ID, START_MESSAGE, LINK, PROMO
@@ -7,7 +9,7 @@ app = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_handler(message):
-    print("Обработчик /start сработал")
+    print(">>> ОБРАБОТЧИК /start СРАБОТАЛ <<<")
     chat_id = message.chat.id
     markup = telebot.types.InlineKeyboardMarkup()
     markup.add(telebot.types.InlineKeyboardButton("Перейти на сайт", url=LINK))
