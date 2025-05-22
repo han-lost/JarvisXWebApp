@@ -51,13 +51,25 @@ def admin():
 @app.route(f"/{TOKEN}", methods=["POST"])
 def receive_update():
     try:
+        @app.route(f"/{TOKEN}", methods=["POST"])
+def receive_update():
+    logging.info(">> Вошли в receive_update()")
+
+    try:
         json_str = request.get_data().decode('UTF-8')
-        logging.info(">> [Telegram] Обновление получено")
         logging.info(f">> JSON обновления: {json_str}")
-update = telebot.types.Update.de_json(json_str)
+        update = telebot.types.Update.de_json(json_str)
         bot.process_new_updates([update])
+
+        if update.message:
+            logging.info(">> Обнаружено сообщение")
+            bot.send_message(update.message.chat.id, ">> Принято обновление. Бот жив.")
+        else:
+            logging.info(">> Сообщение не найдено в update")
+
     except Exception as e:
         logging.error(f">> Ошибка обработки обновления: {e}")
+
     return "OK", 200
 
 @bot.message_handler(commands=['start'])
