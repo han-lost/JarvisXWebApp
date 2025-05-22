@@ -60,7 +60,6 @@ def receive_update():
 
         if update.message:
             logging.info(f">> Обнаружено сообщение от {update.message.chat.id}")
-            bot.send_message(update.message.chat.id, ">> Принято обновление. Бот жив.")
         else:
             logging.info(">> Сообщение не найдено в update")
 
