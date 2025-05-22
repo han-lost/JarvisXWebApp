@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gold Signal App</title>
+</head>
+<body>
+    <h1>Gold Signal</h1>
+    <button onclick="location.href='/get_signal'">Дать лучший сигнал сейчас</button>
+    <button onclick="location.href='/gold_chance'">Шанс золота</button>
+
+    {% if is_admin %}
+        <hr>
+        <h3>Админ-панель</h3>
+        <p><a href="/strategies?admin_token={{ request.args.admin_token }}">Посмотреть стратегии</a></p>
+    {% endif %}
+</body>
+</html>
