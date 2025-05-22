@@ -79,6 +79,15 @@ def send_welcome(message):
 🎰 Ссылка: https://goo.su/qnkvtL  
 💰 Промокод: FXX86  
 """)
+@bot.message_handler(commands=['signal'])
+def send_signal(message):
+    global latest_signal
+    logging.info(f">> [Telegram] Команда /signal от {message.chat.id}")
+    bot.send_message(message.chat.id, f"""
+📡 Актуальный сигнал:
+
+{latest_signal}
+""")
 
 # Настройка webhook — важна только при первом запуске
 if __name__ == "__main__":
