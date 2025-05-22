@@ -14,19 +14,19 @@ def start_handler(message):
 
 @bot.message_handler(func=lambda msg: str(msg.chat.id) == ADMIN_ID and msg.text.startswith("/signal"))
 def signal_handler(message):
-    # Здесь будет генерация сигнала по стратегиям
     bot.send_message(message.chat.id, "Сигнал: X10 скоро!")
 
 @app.route(f'/{TOKEN}', methods=['POST'])
 def webhook():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    json_str = request.stream.read().decode("utf-8")
+    update = telebot.types.Update.de_json(json_str)
+    bot.process_new_updates([update])
     return '', 200
 
 @app.route('/')
 def index():
     return "JarvisXBot работает."
 
-if __name__ == '__main__':
-    bot.remove_webhook()
-    bot.set_webhook(url=f"https://your_render_url.onrender.com/{TOKEN}")
-    app.run(host="0.0.0.0", port=10000)
+# Устанавливаем webhook
+bot.remove_webhook()
+bot.set_webhook(url=f"https://jarvisx-web.onrender.com/{TOKEN}")
