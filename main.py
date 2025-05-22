@@ -53,7 +53,8 @@ def receive_update():
     try:
         json_str = request.get_data().decode('UTF-8')
         logging.info(">> [Telegram] Обновление получено")
-        update = telebot.types.Update.de_json(json_str)
+        logging.info(f">> JSON обновления: {json_str}")
+update = telebot.types.Update.de_json(json_str)
         bot.process_new_updates([update])
     except Exception as e:
         logging.error(f">> Ошибка обработки обновления: {e}")
