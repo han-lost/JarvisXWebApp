@@ -20,6 +20,7 @@ def signal_handler(message):
 @app.route(f'/{TOKEN}', methods=['POST'])
 def webhook():
     json_str = request.stream.read().decode("utf-8")
+    print(f"Raw update: {json_str}")
     update = telebot.types.Update.de_json(json_str)
     bot.process_new_updates([update])
     return '', 200
