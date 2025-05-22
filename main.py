@@ -13,39 +13,16 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-# === Telegram ===
+# === Telegram токен и бот ===
 TOKEN = "8051188881:AAHbGSaljlNC5YASV5Jj3BheqEi27PaL0EU"
 bot = telebot.TeleBot(TOKEN)
-
-# === Глобальный сигнал (используется и в веб, и в боте)
-latest_signal = "Нажми кнопку, чтобы получить сигнал."
-
-# === Telegram Handlers ===
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    logging.info(f">> [Telegram] Команда /start от {message.chat.id}")
-    bot.send_message(message.chat.id, """
-👋 Приветствуем в JarvisXBot!
-
-🎯 Сигналы по стратегиям Lucky Jet  
-🎰 Ссылка: https://goo.su/qnkvtL  
-💰 Промокод: FXX86  
-""")
-
-@bot.message_handler(commands=['signal'])
-def send_signal(message):
-    global latest_signal
-    logging.info(f">> [Telegram] Команда /signal от {message.chat.id}")
-    bot.send_message(message.chat.id, f"""
-📡 Актуальный сигнал:
-
-{latest_signal}
-""")
 
 # === Flask ===
 app = Flask(__name__)
 admin_password = "jarvispass"
+latest_signal = "Нажми кнопку, чтобы получить сигнал."
 
+# === Webhook URL ===
 WEBHOOK_URL = f"https://jarvisx-web.onrender.com/{TOKEN}"
 
 @app.route("/", methods=["GET", "POST"])
@@ -73,29 +50,35 @@ def admin():
 
 @app.route(f"/{TOKEN}", methods=["POST"])
 def receive_update():
-    logging.info(">> Вошли в receive_update()")
-
     try:
         json_str = request.get_data().decode('UTF-8')
-        logging.info(f">> JSON обновления: {json_str}")
         update = telebot.types.Update.de_json(json_str)
         bot.process_new_updates([update])
-
-        if update.message:
-            logging.info(f">> Обнаружено сообщение от {update.message.chat.id}")
-        else:
-            logging.info(">> Сообщение не найдено в update")
-
     except Exception as e:
-        logging.error(f">> Ошибка обработки обновления: {e}")
-
+        logging.error(f">> Ошибка обновления: {e}")
     return "OK", 200
 
-# === Запуск (Webhook)
+# === Команды бота ===
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.send_message(message.chat.id, """
+👋 Приветствуем в JarvisXBot!
+
+🎯 Сигналы по стратегиям Lucky Jet  
+🎰 Ссылка: https://goo.su/qnkvtL  
+💰 Промокод: FXX86  
+""")
+
+@bot.message_handler(commands=['signal'])
+def send_signal(message):
+    global latest_signal
+    bot.send_message(message.chat.id, f"""
+📡 Актуальный сигнал:
+
+{latest_signal}
+""")
+
+# === Установка Webhook при запуске ===
 if __name__ == "__main__":
     bot.remove_webhook()
     bot.set_webhook(url=WEBHOOK_URL)
-    # НЕ запускаем app.run(), если используем gunicorn!
-
-
-
