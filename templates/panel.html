@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>LuckyJet Signals</title>
+</head>
+<body>
+    <h1>LuckyJet Админ-панель</h1>
+    <form method="POST" action="/signal">
+        <input type="password" name="password" placeholder="Пароль" required>
+        <button type="submit">Выдать сигнал</button>
+    </form>
+    <form method="POST" action="/gold">
+        <input type="password" name="password" placeholder="Пароль" required>
+        <button type="submit">Шанс золотого икса</button>
+    </form>
+    <p>{{ output }}</p>
+</body>
+</html>
