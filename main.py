@@ -1,9 +1,17 @@
 from flask import Flask, request, render_template
 import telebot
 import logging
+import os
 
-# Логирование
-logging.basicConfig(level=logging.INFO)
+# === Настройка логов ===
+if not os.path.exists("logs"):
+    os.makedirs("logs")
+
+logging.basicConfig(
+    filename="logs/jarvis.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 # Telegram токен
 TOKEN = "8051188881:AAHbGSaljlNC5YASV5Jj3BheqEi27PaL0EU"
@@ -21,6 +29,7 @@ WEBHOOK_URL = f"https://jarvisx-web.onrender.com/{TOKEN}"
 def index():
     global latest_signal
     if request.method == "POST":
+        logging.info(">> [WEB] Пользователь нажал кнопку на главной")
         return render_template("index.html", signal=latest_signal)
     return render_template("index.html", signal=None)
 
@@ -32,8 +41,10 @@ def admin():
             signal = request.form.get("signal")
             if signal:
                 latest_signal = signal
+                logging.info(f">> [ADMIN] Обновлён сигнал: {signal}")
             return render_template("admin.html", success=True, signal=latest_signal)
         else:
+            logging.warning(">> [ADMIN] Неверный пароль")
             return render_template("admin.html", error="Неверный пароль")
     return render_template("admin.html")
 
@@ -41,8 +52,7 @@ def admin():
 def receive_update():
     try:
         json_str = request.get_data().decode('UTF-8')
-        logging.info(">> [Telegram] Update received")
-        logging.info(json_str)
+        logging.info(">> [Telegram] Обновление получено")
         update = telebot.types.Update.de_json(json_str)
         bot.process_new_updates([update])
     except Exception as e:
@@ -51,7 +61,7 @@ def receive_update():
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    logging.info(f">> Команда /start от {message.chat.id}")
+    logging.info(f">> [Telegram] Команда /start от {message.chat.id}")
     bot.send_message(message.chat.id, """
 Приветствуем в JarvisXBot!
 
@@ -61,11 +71,6 @@ def send_welcome(message):
 """)
 
 if __name__ == "__main__":
-    # Раскомментировать для polling:
-    # bot.remove_webhook()
-    # bot.polling(none_stop=True)
-
-    # Для webhook:
     bot.remove_webhook()
     bot.set_webhook(url=WEBHOOK_URL)
     app.run(host="0.0.0.0", port=10000)
