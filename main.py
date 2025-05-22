@@ -10,12 +10,16 @@ app = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_handler(message):
-    print("start_handler вызван")  # Новый лог
+    print("✅ start_handler вызван")  # Проверка вызова
     chat_id = message.chat.id
-    print(f"chat_id: {chat_id}")  # Новый лог
-    markup = telebot.types.InlineKeyboardMarkup()
-    markup.add(telebot.types.InlineKeyboardButton("Перейти на сайт", url=LINK))
-    bot.send_message(chat_id, START_MESSAGE, reply_markup=markup)
+    print(f"➡️ chat_id: {chat_id}")  # Проверка ID
+    try:
+        markup = telebot.types.InlineKeyboardMarkup()
+        markup.add(telebot.types.InlineKeyboardButton("Перейти на сайт", url=LINK))
+        bot.send_message(chat_id, START_MESSAGE, reply_markup=markup)
+        print("✅ Сообщение отправлено")  # Проверка отправки
+    except Exception as e:
+        print(f"❌ Ошибка при отправке сообщения: {e}")  # Ловим ошибки
 
 @bot.message_handler(func=lambda msg: msg.chat.id == ADMIN_ID and msg.text.startswith("/signal"))
 def signal_handler(message):
