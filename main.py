@@ -1,8 +1,9 @@
 import logging
-telebot.logger.setLevel(logging.DEBUG)
 from flask import Flask, request
 import telebot
 from config import TOKEN, ADMIN_ID, START_MESSAGE, LINK, PROMO
+
+telebot.logger.setLevel(logging.DEBUG)  # Только после импорта telebot
 
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
